@@ -1,0 +1,158 @@
+:root {
+    --base-color-bg: #666;
+    --base-color-text: #ccc;
+    --base-color-accent: #f49f16;
+
+    --base-shadow-text: 0.1em 0.1em 0.1em rgba(0,0,0,0.8);
+    --base-shadow-box: 0 0 1em rgba(0,0,0,0.5);
+    --base-glow-text: 0 0 0.1em var(--base-color-accent);
+
+    --base-border-solid: 1px solid #000;
+}
+
+* {
+    box-sizing: border-box;
+    cursor: default;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--base-color-bg);
+    color: var(--base-color-text);
+    display: flex;
+    flex-direction: column;
+    font-family: Tahoma, Verdana, Geneva, sans-serif;
+    font-size: 12pt;
+    margin: 0;
+    min-height: 100vh;
+    padding: 2em 10vw;
+    text-shadow: var(--base-shadow-text);
+}
+
+a, a *,
+input[type='date'],
+button, select, option {
+    cursor: pointer;
+}
+
+input[type='text'],
+input[type='number'] {
+    cursor: text;
+}
+
+header {
+
+}
+
+header h1 {
+    font-weight: normal;
+    letter-spacing: 0.5em;
+    margin: 0 0 1em;
+    text-transform: uppercase;
+}
+
+header h1 img {
+    filter: drop-shadow(0.1em 0.1em 0.04em rgba(0,0,0,0.4));
+    height: 1.5em;
+    vertical-align: middle;
+    width: auto;
+}
+
+main {
+    flex: 1;
+}
+
+main table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-shadow: var(--base-shadow-box);
+    width: 100%;
+}
+
+main thead th {
+    border: 0;
+    padding: 0.3em 0;
+}
+
+main tbody tr {
+    transition: all 0.2s ease-out;
+}
+
+main tbody tr:nth-child(odd) {
+    background-color: rgba(0,0,0,0.1);
+}
+
+main tbody tr:nth-child(even) {
+    background-color: rgba(255,255,255,0.1);
+}
+
+main tbody tr:hover {
+    outline: 1px solid var(--base-color-accent);
+}
+
+main tbody td {
+    border: 0;
+    padding: 1em;
+    text-align: right;
+}
+
+main tbody tr td:nth-child(1),
+main tbody tr td:nth-child(2) {
+    text-align: left;
+}
+
+main tbody tr td:last-child {
+    white-space: nowrap;
+}
+
+main tbody td a {
+
+}
+
+main tbody td a svg {
+    filter: drop-shadow(var(--base-shadow-text));
+    height: 1.5em;
+    width: 1.5em;
+    transition: all 0.2s ease-out;
+}
+
+main tbody td a svg path {
+    fill: var(--base-color-accent);
+}
+
+main tbody td a:hover {
+}
+
+main tbody td a:hover svg {
+    filter: drop-shadow(var(--base-glow-text));
+    height: 1.5em;
+    transform: scale(1.5);
+    width: 1.5em;
+}
+
+main tbody td a:hover svg path {
+    fill: var(--base-color-accent);
+}
+
+main tfoot input,
+main tfoot select,
+main tfoot button {
+    display: block;
+    width: 100%;
+}
+
+main tfoot input[type='number'] {
+    width: 5em;
+}
+
+main tfoot td {
+    padding: 1em;
+}
+
+footer {
+
+}

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+        <title>Library</title>
+        <link rel="icon" type="image/svg+xml" href="./res/books.svg">
+        <link rel="stylesheet" href="./res/library.css">
+        <script src="./res/library.js" defer></script>
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                new Library;
+            });
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>
+                <img src="./res/books.svg" alt="books">
+                Library
+            </h1>
+        </header>
+        <main>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Pages</th>
+                        <th>Published</th>
+                        <th>Acquired</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td><input type="text"   id="new_title"     name="new_title" placeholder="Title"></td>
+                        <td><input type="text"   id="new_author"    name="new_author" placeholder="Author"></td>
+                        <td><input type="number" id="new_pages"     name="new_pages" min="1" max="9999" placeholder="Pages"></td>
+                        <td><input type="date"   id="new_published" name="new_published"></td>
+                        <td><input type="date"   id="new_acquired"  name="new_acquired"></td>
+                        <td><select id="new_read" name="new_read"><option value="0">Read</option><option value="1">Unread</option></select></td>
+                        <td><button>Add</button></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </main>
+        <footer>footer</footer>
+    </body>
+</html>
