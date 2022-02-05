@@ -7,66 +7,9 @@
  */
 class Library {
 
-    books = [{
-        id        : 'kz6hsec5',
-        title     : 'some book',
-        author    : 'some guy',
-        pages     : 69,
-        published : '1980-01-01',
-        acquired  : '2020-09-10',
-        status    : 1
-    }, {
-        id        : 'kz6httjb',
-        title     : 'another book',
-        author    : 'another guy',
-        pages     : 420,
-        published : '1960-06-06',
-        acquired  : '2021-05-08',
-        status    : 0
-    }, {
-        id        : 'kz6hwx3k',
-        title     : 'a third book',
-        author    : 'some girl',
-        pages     : 77,
-        published : '1977-07-07',
-        acquired  : '2022-02-02',
-        status    : 1
-    }];
-
-    trash = [{
-        id        : 'lk6hsec5',
-        title     : 'deleted book',
-        author    : 'unlikable guy',
-        pages     : 69,
-        published : '1980-01-01',
-        acquired  : '2020-09-10',
-        status    : 1
-    }, {
-        id        : 'tyjhttjb',
-        title     : 'another deleted book',
-        author    : 'boring guy',
-        pages     : 420,
-        published : '1960-06-06',
-        acquired  : '2021-05-08',
-        status    : 0
-    }, {
-        id        : 'sdahwx3k',
-        title     : 'a third deleted book',
-        author    : 'unpleasant girl',
-        pages     : 77,
-        published : '1977-07-07',
-        acquired  : '2022-02-02',
-        status    : 1
-    }];
-
-    styles = [
-        'shadow-text',
-        'shadow-box',
-        'glow-text',
-        'glow-box',
-        'border-solid',
-        'outline-solid'
-    ];
+    books = [];
+    trash = [];
+    base  = {};
 
     settings = [
         'color-accent',
@@ -76,38 +19,102 @@ class Library {
         'color-light'
     ];
 
-    base = {};
-
     /**
      * Constructor
      * @constructor
      */
     constructor() {
 
+        this.books[0] = new Book(
+            'kz6hsec5',
+            'The Divine Comedy',
+            'Dante Alighieri',
+            928,
+            '1492-01-01',
+            '2020-09-10',
+            1
+        );
+        this.books[1] = new Book(
+            'kz6httjb',
+            'A Peoples History of the United States',
+            'Howard Zinn',
+            729,
+            '1980-06-06',
+            '2021-05-08',
+            0
+        );
+        this.books[2] = new Book(
+            'kz6hwx3k',
+            'Thus Spake Zarathustra',
+            'Friedrich Nietzsche',
+            352,
+            '1883-07-07',
+            '2022-02-02',
+            1
+        );
+        this.books[3] = new Book(
+            'pl6hwx3k',
+            'The Art of War',
+            'Sun Tzu',
+            68,
+            '0000-01-01',
+            '2022-01-20',
+            1
+        );
+
+        this.trash[0] = new Book(
+            'lk6hsec5',
+            'deleted book',
+            'unlikable guy',
+            69,
+            '1980-01-01',
+            '2020-09-10',
+            1
+        );
+        this.trash[1] = new Book(
+            'tyjhttjb',
+            'another deleted book',
+            'boring guy',
+            420,
+            '1960-06-06',
+            '2021-05-08',
+            0
+        );
+        this.trash[2] = new Book(
+            'sdahwx3k',
+            'a third deleted book',
+            'unpleasant girl',
+            77,
+            '1977-07-07',
+            '2022-02-02',
+            1
+        );
+
         // Class Elements
         this.tableBody  = document.querySelector('tbody');
         this.recycleBin = document.getElementById('deleted_books');
 
-        // Build {base} from {settings} and CSS
+        // Build {base} from [settings] and CSS
         this.settings.forEach((index) => {
             // Get Value from Stylesheet
             this.base[index] = getComputedStyle(document.documentElement).getPropertyValue('--' + index).trim();
 
             // Add Event Listener to Settings Form
-            document.getElementById(index).addEventListener('change', (e) => {
+            const input = document.getElementById(index);
+            input.value = this.base[index];
+            input.addEventListener('change', (e) => {
                 document.documentElement.style.setProperty('--' + index, e.target.value);
             });
         });
 
         // Add Books to Table
-        this.books.forEach((book) => {
-            this.addTableRow(book);
-        });
+        this.buildTable();
 
         // Add Trash to Recycle Bin
-        this.trash.forEach((book) => {
-            this.addTrashOption(book);
-        });
+        this.buildTrash();
+
+        // Update Summary Stats
+        this.updateStats();
 
         // Select/Deselect All Checkbox
         document.getElementById('select_all').addEventListener('input', (e) => {
@@ -115,15 +122,6 @@ class Library {
             for (let i = 0; i < checks.length; i++) {
                 checks[i].checked = e.target.checked;
             }
-        });
-
-        // Default Acquired Date
-        document.getElementById('new_acquired').valueAsDate = new Date();
-
-        // Settings Reset Button
-        document.getElementById('settings-reset').addEventListener('click', (e) => {
-            e.preventDefault();
-            this.resetSettings();
         });
 
         // Modal Close Button [X]
@@ -135,28 +133,57 @@ class Library {
             });
         }
 
-        // Open Settings Button
+        // Open Settings Modal
         document.getElementById('settings_link').addEventListener('click', (e) => {
             e.preventDefault();
             this.openModal('modal_settings');
         });
 
+        // Settings Reset Button
+        document.getElementById('settings-reset').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.resetSettings();
+        });
+
         // Delete Group Button
         document.getElementById('delete_group').addEventListener('click', (e) => {
             e.preventDefault();
-            this.openModal('modal_delete');
+            const selected = this.tableBody.querySelectorAll("input[type='checkbox']:checked");
+            for (let i = 0; i < selected.length; i++) {
+                this.deleteBook(selected[i].value);
+            }
+            document.getElementById('select_all').checked = false;
         });
 
-        // Open Recycle Bin Button
+        // Open Recycle Bin Modal
         document.getElementById('recycle_link').addEventListener('click', (e) => {
             e.preventDefault();
             this.openModal('modal_recycle');
         });
 
-        // Add Book Button
+        // Open Add Book Modal
         document.getElementById('add_link').addEventListener('click', (e) => {
             e.preventDefault();
+
+            document.querySelector('#modal_edit h3').innerText = 'Add New Book';
+            document.querySelector('#new_book button').innerText = 'Add Book';
+            document.getElementById('new_title').value = '';
+            document.getElementById('new_author').value = '';
+            document.getElementById('new_pages').value = '';
+            document.getElementById('new_published').value = '';
+            document.getElementById('new_acquired').valueAsDate = new Date();
+            document.getElementById('new_status').value = '0';
+            document.getElementById('new_id').value = '';
+
             this.openModal('modal_edit');
+        });
+
+        // Add Book Form Submit
+        document.getElementById('new_book').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.addBook();
+            this.closeModal('modal_edit');
+            return false;
         });
 
         // Recycle Bin Restore Button
@@ -165,12 +192,7 @@ class Library {
 
             const selected = this.recycleBin.querySelectorAll('option:checked');
             for (let i = 0; i < selected.length; i++) {
-                const bookID = selected[i].value;
-                const item   = this.trash.find(b => b.id === bookID);
-                this.books.push(item);
-                this.trash = this.trash.filter(b => b.id !== bookID);
-                this.removeTrashOption(bookID);
-                this.addTableRow(item);
+                this.restoreBook(selected[i].value);
             }
 
             this.closeModal('modal_recycle');
@@ -182,16 +204,76 @@ class Library {
 
             const selected = this.recycleBin.querySelectorAll('option:checked');
             for (let i = 0; i < selected.length; i++) {
-                const bookID = selected[i].value;
-                this.trash = this.trash.filter(b => b.id !== bookID);
-                this.removeTrashOption(bookID);
+                this.eraseBook(selected[i].value);
             }
         });
 
-        // document.getElementById('delete_link').addEventListener('click', (e) => {
-        //     e.preventDefault();
-        //     this.openModal('modal_delete');
-        // });
+        // Mobile Alert Modal OK Button
+        document.getElementById('mobile_confirm').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.closeModal('modal_mobile');
+        });
+
+        // Table Header Sort Links
+        const tableHeaders = document.querySelectorAll('th a');
+        for (let i = 0; i < tableHeaders.length; i++) {
+            tableHeaders[i].addEventListener('click', (e) => {
+                e.preventDefault();
+                const prop = e.target.id.replace('head_', '');
+                this.sortBooks(e, prop);
+            });
+        }
+    }
+
+    updateStats() {
+        let read   = 0;
+        let unread = 0;
+        let pages  = 0;
+        for (let i = 0; i < this.books.length; i++) {
+            pages = pages + this.books[i].pages;
+            if (this.books[i].status) {
+                read++;
+            } else {
+                unread++;
+            }
+        }
+
+        const authors = this.books.reduce(
+            (acc, x) => acc.concat(
+                acc.find(
+                    y => y.author.toLowerCase() === x.author.toLowerCase()
+                ) ? [] : [x]
+            ), []
+        );
+
+        document.getElementById('total_books').innerText   = this.books.length.toString();
+        document.getElementById('total_pages').innerText   = pages.toLocaleString();
+        document.getElementById('total_authors').innerText = authors.length.toString();
+        document.getElementById('total_read').innerText    = read.toString();
+        document.getElementById('total_unread').innerText  = unread.toString();
+        document.getElementById('total_trash').innerText   = this.trash.length.toString();
+    }
+
+    sortBooks(e, prop) {
+        this.books.sort((a, b) => (a[prop] > b[prop]) ? 1 : -1);
+
+        const link = e.target;
+        if (link.classList.contains('asc')) {
+            link.classList.remove('asc');
+            link.classList.add('dec');
+            this.books.reverse();
+        } else if (link.classList.contains('dec')) {
+            link.classList.remove('dec');
+            link.classList.add('asc');
+        } else {
+            const links = document.querySelectorAll('th a');
+            for (let i = 0; i < links.length; i++) {
+                links[i].classList.remove(...links[i].classList);
+            }
+            link.classList.add('asc');
+        }
+
+        this.buildTable();
     }
 
     addTableRow(book) {
@@ -199,17 +281,17 @@ class Library {
         row.id = book.id;
         row.innerHTML = `
             <td><input type="checkbox" id="select_${book.id}" name="selected[]" value="${book.id}"></td>
-            <td>${book.title}</td>
-            <td>${book.author}</td>
-            <td>${book.pages}</td>
-            <td>${this.formatDate(book.published)}</td>
-            <td>${this.formatDate(book.acquired)}</td>
-            <td>${this.getStatus(book.status)}</td>
-            <td>
-                <a data-id="${book.id}" data-action="delete"  title="Delete" href="#"><svg viewBox="0 0 24 24">
+            <td class="book_title">${book.getTitle()}</td>
+            <td class="book_author">${book.getAuthor()}</td>
+            <td class="book_pages">${book.getPages()}</td>
+            <td class="book_published">${book.getPublished()}</td>
+            <td class="book_acquired">${book.getAcquired()}</td>
+            <td class="book_status">${book.getStatus()}</td>
+            <td class="book_edit">
+                <a data-id="${book.id}" data-action="delete" title="Delete Book" href="#"><svg viewBox="0 0 24 24">
                     <path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z" />
                 </svg></a>
-                <a data-id="${book.id}" data-action="edit" title="Edit" href="#"><svg viewBox="0 0 24 24">
+                <a data-id="${book.id}" data-action="edit" title="Edit Book" href="#"><svg viewBox="0 0 24 24">
                     <path d="M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z" />
                 </svg></a>
             </td>`;
@@ -225,37 +307,111 @@ class Library {
         document.getElementById(bookID).remove();
     }
 
+    buildTable() {
+        this.tableBody.innerHTML = '';
+        this.books.forEach((book) => {
+            this.addTableRow(book);
+        });
+    }
+
+    addBook() {
+        const bookID = document.getElementById('new_id').value;
+        const index  = this.indexFromBookID(bookID);
+        if (bookID !== '') {
+            this.books[index].title     = document.getElementById('new_title').value;
+            this.books[index].author    = document.getElementById('new_author').value;
+            this.books[index].pages     = document.getElementById('new_pages').value;
+            this.books[index].published = document.getElementById('new_published').value;
+            this.books[index].acquired  = document.getElementById('new_acquired').value;
+            this.books[index].status    = document.getElementById('new_status').value;
+
+            const row = document.getElementById(bookID);
+            row.querySelector('.book_title').innerText     = this.books[index].getTitle();
+            row.querySelector('.book_author').innerText    = this.books[index].getAuthor();
+            row.querySelector('.book_pages').innerText     = this.books[index].getPages();
+            row.querySelector('.book_published').innerText = this.books[index].getPublished();
+            row.querySelector('.book_acquired').innerText  = this.books[index].getAcquired();
+            row.querySelector('.book_status').innerText    = this.books[index].getStatus();
+        } else {
+            const newBook = new Book(
+                this.generateId(),
+                document.getElementById('new_title').value,
+                document.getElementById('new_author').value,
+                document.getElementById('new_pages').value,
+                document.getElementById('new_published').value,
+                document.getElementById('new_acquired').value,
+                document.getElementById('new_status').value
+            );
+            this.books.push(newBook);
+            this.addTableRow(newBook);
+        }
+        this.updateStats();
+    }
+
+    deleteBook(bookID) {
+        const index = this.indexFromBookID(bookID);
+        this.trash.push(this.books[index]);
+        this.addTrashOption(this.books[index]);
+        //this.books.splice(index, 1);
+        this.books = this.books.filter(b => b.id !== bookID);
+        this.removeTableRow(bookID);
+        this.updateStats();
+    }
+
+    restoreBook(bookID) {
+        const index = this.indexFromTrashID(bookID);
+        this.books.push(this.trash[index]);
+        this.addTableRow(this.trash[index]);
+        //this.trash.splice(index, 1);
+        this.trash = this.trash.filter(b => b.id !== bookID);
+        this.removeTrashOption(bookID);
+        this.updateStats();
+    }
+
+    eraseBook(bookID) {
+        //this.trash.splice(bookID, 1);
+        this.trash = this.trash.filter(b => b.id !== bookID);
+        this.removeTrashOption(bookID);
+        this.updateStats();
+    }
+
     editEntry(e) {
         e.preventDefault();
 
         const bookID = e.currentTarget.dataset.id;
         const action = e.currentTarget.dataset.action;
-        const item   = this.books.find(b => b.id === bookID);
 
         if (action === 'delete') {
             // Delete Entry
-            this.trash.push(item);
-            this.books = this.books.filter(b => b.id !== bookID);
-            this.removeTableRow(bookID);
-            this.addTrashOption(item);
+            this.deleteBook(bookID);
         } else {
             // Edit Entry
-            document.getElementById('new_title').value     = item.title;
-            document.getElementById('new_author').value    = item.author;
-            document.getElementById('new_pages').value     = item.pages;
-            document.getElementById('new_published').value = item.published;
-            document.getElementById('new_acquired').value  = item.acquired;
-            document.getElementById('new_status').value    = item.status;
-            document.getElementById('new_id').value        = item.id;
+            const index = this.indexFromBookID(bookID);
+            document.querySelector('#modal_edit h3').innerText = 'Edit Book';
+            document.querySelector('#new_book button').innerText = 'Update Book';
+            document.getElementById('new_title').value     = this.books[index].title;
+            document.getElementById('new_author').value    = this.books[index].author;
+            document.getElementById('new_pages').value     = this.books[index].pages;
+            document.getElementById('new_published').value = this.books[index].published;
+            document.getElementById('new_acquired').value  = this.books[index].acquired;
+            document.getElementById('new_status').value    = this.books[index].status;
+            document.getElementById('new_id').value        = this.books[index].id;
 
             this.openModal('modal_edit');
+        }
+    }
+
+    buildTrash() {
+        this.recycleBin.innerHTML = '';
+        for (let i = 0; i < this.trash.length; i++) {
+            this.addTrashOption(this.trash[i]);
         }
     }
 
     addTrashOption(book) {
         const option = document.createElement('option');
         option.value = book.id;
-        option.innerText = `"${book.title}" - ${book.author}`;
+        option.innerText = `"${book.getTitle()}" - ${book.getAuthor()}`;
         this.recycleBin.appendChild(option);
     }
 
@@ -273,12 +429,12 @@ class Library {
         return (Math.round(Date.now())).toString(36);
     }
 
-    getStatus(status) {
-        return (status) ? 'Read' : 'Unread';
+    indexFromBookID(bookID) {
+        return this.books.findIndex(book => book.id === bookID);
     }
 
-    formatDate(str) {
-        return new Date(str).toLocaleDateString();
+    indexFromTrashID(bookID) {
+        return this.trash.findIndex(book => book.id === bookID);
     }
 
     resetSettings() {
@@ -302,17 +458,6 @@ class Library {
         modal.style.display = 'block';
         mask.style.display = 'flex';
         mask.style.opacity = '1';
-    }
-}
-
-class Book {
-    constructor(title, author, pages, published, acquired, status) {
-        this.title     = title;
-        this.author    = author;
-        this.pages     = pages;
-        this.published = published;
-        this.acquired  = acquired;
-        this.status    = status;
     }
 }
 

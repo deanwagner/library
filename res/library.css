@@ -2,10 +2,10 @@
     --color-bg: #666666;
     --color-text: #cccccc;
     --color-dark: #333333;
-    --color-light: #ffffff;
-    --color-accent: #f49f16;
+    --color-light: #eeeeee;
+    --color-accent: #ff9c00;
 
-    --shadow-text: 0.1em 0.1em 0.2em rgba(0,0,0,0.6);
+    --shadow-text: 0.05em 0.05em 0.2em rgba(0,0,0,0.6);
     --shadow-box: 0 0 1em rgba(0,0,0,0.5);
     --glow-text: 0 0 0.1em var(--color-accent);
     --glow-box: 0 0 0.3em var(--color-accent);
@@ -20,6 +20,10 @@
     cursor: default;
     color-scheme: dark;
 }
+
+/* * * * * * * * *\
+ * Element Base  *
+\* * * * * * * * */
 
 html {
     margin: 0;
@@ -43,6 +47,7 @@ body {
 
 a, a * {
     cursor: pointer;
+    transition: all 0.2s ease-out;
 }
 
 a, a:link, a:visited {
@@ -55,6 +60,10 @@ a:hover, a:focus, a:active {
     text-decoration: underline;
     text-shadow: var(--glow-text);
 }
+
+/* * * * * * * * *\
+ *     Forms     *
+\* * * * * * * * */
 
 input[type='checkbox'],
 button, select, option {
@@ -76,6 +85,7 @@ select {
     border-radius: 0.3em;
     box-shadow: inset var(--shadow-text);
     color: var(--color-dark);
+    font-family: 'Courier New', Courier, monospace;
     padding: 0.3em;
 }
 
@@ -121,17 +131,22 @@ button:active {
     box-shadow: var(--glow-box);
 }
 
+/* * * * * * * * *\
+ *    Header     *
+\* * * * * * * * */
+
 header {
     align-items: flex-start;
     display: flex;
     justify-content: space-between;
+    white-space: nowrap;
 }
 
 header h1 {
     color: var(--color-light);
     font-weight: normal;
     letter-spacing: 0.5em;
-    margin: 0 0 1em;
+    margin: 0 0 1rem 1rem;
     text-transform: uppercase;
 }
 
@@ -139,6 +154,7 @@ header h1 svg {
     filter: drop-shadow(0.1em 0.1em 0.04em rgba(0,0,0,0.4));
     height: 1.5em;
     vertical-align: middle;
+    white-space: nowrap;
     width: auto;
 }
 
@@ -149,6 +165,10 @@ header h1 svg .cls-2, .cls-3, .cls-4 { stroke: var(--color-dark); stroke-linecap
 header h1 svg .cls-3 { fill: var(--color-dark); stroke-width: 2px; }
 header h1 svg .cls-4 { fill: var(--color-accent); stroke-width: 1; }
 header h1 svg .cls-5 { fill: var(--color-accent); }
+
+header div {
+    margin-right: 1em;
+}
 
 header div a {
     display: inline-block;
@@ -170,7 +190,7 @@ header div svg path {
 
 header div a:hover,
 header div a:focus {
-    transform: rotate(360deg) scale(1.5);
+    transform: rotate(-360deg) scale(1.5);
 }
 
 header div a:hover svg,
@@ -178,9 +198,17 @@ header div a:focus svg {
     filter: drop-shadow(var(--glow-text));
 }
 
+/* * * * * * * * *\
+ *     Main      *
+\* * * * * * * * */
+
 main {
     flex: 1;
 }
+
+/* * * * * * * * *\
+ *    Table      *
+\* * * * * * * * */
 
 main table {
     border: var(--border-solid);
@@ -190,14 +218,37 @@ main table {
     width: 100%;
 }
 
+/* * * * * * * * *\
+ *  Table Head   *
+\* * * * * * * * */
+
 main thead tr {
     background-color: var(--color-dark);
 }
 
 main thead th {
     border: 0;
+    font-weight: normal;
     padding: 0.3em 0;
 }
+
+main thead th .asc::after {
+    content: '▾'; /* ▼ ↓ ⇓ ↧ */
+    height: 1em;
+    margin-right: 0;
+    width: 1em;
+}
+
+main thead th .dec::after {
+    content: '▴'; /* ▲ ↑ ⇑ ↥ */
+    height: 1em;
+    margin-right: 0;
+    width: 1em;
+}
+
+/* * * * * * * * *\
+ *  Table Body   *
+\* * * * * * * * */
 
 main tbody tr {
     border: var(--border-solid);
@@ -235,10 +286,6 @@ main tbody tr td:last-child {
     white-space: nowrap;
 }
 
-main table td a {
-
-}
-
 main table td a svg {
     filter: drop-shadow(var(--shadow-text));
     height: 1.5em;
@@ -264,6 +311,10 @@ main table td a:hover svg path {
     fill: var(--color-accent);
 }
 
+/* * * * * * * * *\
+ *  Table Foot   *
+\* * * * * * * * */
+
 main tfoot tr {
     background-color: var(--color-dark);
 }
@@ -278,6 +329,48 @@ main tfoot tr td:first-child {
 
 main tfoot tr td:last-child {
     text-align: right;
+    white-space: nowrap;
+}
+
+main tfoot td:last-child a {
+    display: inline-block;
+    margin-left: 0.4em;
+}
+
+main tfoot td:last-child a svg {
+    height: 2em;
+    width: 2em;
+}
+
+/* * * * * * * * *\
+ *    Summary    *
+\* * * * * * * * */
+
+#summary {
+    align-items: center;
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    margin: 1em 0 0;
+    width: 100%;
+}
+
+#summary div {
+    background-color: var(--color-dark);
+    border: var(--border-solid);
+    border-radius: 1em;
+    box-shadow: var(--shadow-box);
+    flex: 1;
+    font-size: 0.8em;
+    padding: 1em 2em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#summary span {
+    color: var(--color-light);
+    display: block;
+    font-size: 1.8rem;
 }
 
 /* * * * * * * * *\
@@ -286,7 +379,7 @@ main tfoot tr td:last-child {
 
 footer {
     font-size: 0.8em;
-    padding: 1em 0;
+    padding: 2em 0 0;
     text-align: center;
 }
 
@@ -321,15 +414,17 @@ footer {
 
 #modal div h3 {
     font-weight: normal;
-    margin: 0 0 2em;
+    margin: 0 0 1em;
     text-align: center;
 }
 
 #modal .close_modal {
+    height: 2em;
     position: absolute;
     right: 0.5em;
     top: 0.5em;
     transition: all 0.3s ease-out;
+    width: 2em;
 }
 
 #modal .close_modal svg {
@@ -337,8 +432,12 @@ footer {
     transition: all 0.3s ease-out;
 }
 
+#modal .close_modal svg path {
+    fill: var(--color-accent);
+}
+
 #modal .close_modal:hover {
-    transform: rotate(360deg) scale(1.3);
+    transform: rotate(-360deg) scale(1.3);
 }
 
 #modal .close_modal:hover svg {
@@ -380,14 +479,6 @@ footer {
 
 #modal_edit form button {
     grid-column: 1 / span 2;
-}
-
-/* * * * * * * * *\
- * Delete Entry  *
-\* * * * * * * * */
-
-#modal_delete {
-    display: none;
 }
 
 /* * * * * * * * *\
@@ -437,6 +528,40 @@ footer {
 }
 
 /* * * * * * * * *\
+ *  Mobile View  *
+\* * * * * * * * */
+
+#modal_mobile {
+    display: none;
+}
+
+#modal_mobile div {
+    max-width: 90vw;
+    text-align: center;
+    width: 18em;
+}
+
+#modal_mobile div svg {
+    filter: drop-shadow(var(--shadow-text));
+    height: 8em;
+    margin: 0 auto;
+    width: 8em;
+}
+
+#modal_mobile div svg path {
+    fill: var(--color-text);
+}
+
+#modal_mobile div p {
+    text-align: left;
+}
+
+#modal_mobile div button {
+    font-weight: bold;
+    padding: 1em 2em;
+}
+
+/* * * * * * * * *\
  *  Scrollbars   *
 \* * * * * * * * */
 
@@ -466,19 +591,16 @@ footer {
     background-color: var(--color-accent);
 }
 
-/*
-main tfoot input,
-main tfoot select,
-main tfoot button {
-    display: block;
-    width: 100%;
+/* * * * * * * * *\
+ * Media Queries *
+\* * * * * * * * */
+
+@media screen and (orientation: portrait) {
+    #modal { display: flex; }
+    #modal_mobile { display: block; }
+    body { padding: 1em; }
 }
 
-main tfoot input[type='number'] {
-    width: 5em;
+@media screen and (max-width: 1000px) {
+    body { padding: 1em; }
 }
-
-main tfoot td {
-    padding: 1em;
-}
-*/
