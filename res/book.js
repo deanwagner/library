@@ -35,7 +35,7 @@ class Book {
     }
 
     getPages() {
-        return this.pages.toString();
+        return this.pages.toLocaleString();
     }
 
     getPublished() {
