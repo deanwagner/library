@@ -27,11 +27,43 @@ class Book {
     }
 
     getTitle() {
-        return this.formatText(this.title);
+        let str = this._formatText(this.title);
+
+        const replace = {
+            " A "    : " a ",
+            " An "   : " an ",
+            " And "  : " and ",
+            " As "   : " as ",
+            " At "   : " at ",
+            " But "  : " but ",
+            " By "   : " by ",
+            " For "  : " for ",
+            " If "   : " if ",
+            " In "   : " in ",
+            " Nor "  : " nor ",
+            " Of "   : " of ",
+            " Off "  : " off ",
+            " On "   : " on ",
+            " Or "   : " or ",
+            " Per "  : " per ",
+            " The "  : " the ",
+            " To "   : " to ",
+            "'S "    : "'s ",
+            " So "   : " so ",
+            " Up "   : " up ",
+            " Via "  : " via ",
+            " Yet "  : " yet "
+        };
+
+        for (let i in replace) {
+            str = str.replace(i, replace[i]);
+        }
+
+        return str;
     }
 
     getAuthor() {
-        return this.formatText(this.author);
+        return this._formatText(this.author);
     }
 
     getPages() {
@@ -39,18 +71,18 @@ class Book {
     }
 
     getPublished() {
-        return this.formatDate(this.published);
+        return this._formatDate(this.published);
     }
 
     getAcquired() {
-        return this.formatDate(this.acquired);
+        return this._formatDate(this.acquired);
     }
 
-    formatText(str) {
+    _formatText(str) {
         return str.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase());
     }
 
-    formatDate(str) {
+    _formatDate(str) {
         return new Date(str).toLocaleDateString();
     }
 }

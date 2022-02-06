@@ -362,7 +362,7 @@ main tfoot td:last-child a svg {
     box-shadow: var(--shadow-box);
     flex: 1;
     font-size: 0.8em;
-    padding: 1em 2em;
+    padding: 1em;
     text-align: center;
     white-space: nowrap;
 }
