@@ -21,7 +21,7 @@
     "display"          : "standalone",
     "scope"            : "/",
     "screenshots"      : [{
-        "src"   : "/img/library-screenshot.png",
+        "src"   : "img/library-screenshot.png",
         "type"  : "image/png",
         "sizes" : "650x365"
     }]
