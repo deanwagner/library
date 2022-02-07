@@ -3,7 +3,7 @@
 /**
  * Personal Library
  * @class
- * @author  Dean Wagner <info@deanwagner.net>
+ * @author Dean Wagner <info@deanwagner.net>
  */
 class Library {
 
