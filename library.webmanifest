@@ -1,7 +1,8 @@
 {
-    "short_name" : "Library",
-    "name"       : "Library",
-    "icons"      : [{
+    "short_name"  : "Library",
+    "name"        : "Library",
+    "description" : "An app to store and track your personal library.",
+    "icons"       : [{
         "src"   : "img/library.svg",
         "type"  : "image/svg+xml",
         "sizes" : "any"
@@ -19,7 +20,6 @@
     "theme_color"      : "#333333",
     "display"          : "standalone",
     "scope"            : "/",
-    "description"      : "An app to store and track your personal library.",
     "screenshots"      : [{
         "src"   : "/img/library-screenshot.png",
         "type"  : "image/png",
