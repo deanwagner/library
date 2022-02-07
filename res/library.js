@@ -419,6 +419,7 @@ class Library {
 
             // Change Link Text
             e.target.innerText = (parseInt(e.target.dataset.status)) ? 'Unread' : 'Read';
+            e.target.dataset.status = (parseInt(e.target.dataset.status)) ? '0' : '1';
 
             // Update Summary Stats
             this.updateStats();
@@ -430,7 +431,9 @@ class Library {
         // Add Event Listeners for Edit Buttons
         const a = row.querySelectorAll('.book_edit a');
         for (let i = 0; i < a.length; i++) {
-            a[i].addEventListener('click', (e) => { this.editEntry(e); });
+            a[i].addEventListener('click', (e) => {
+                this.editEntry(e);
+            });
         }
 
         // Add Row to Table
