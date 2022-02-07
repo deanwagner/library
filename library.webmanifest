@@ -19,7 +19,7 @@
     "background_color" : "#666666",
     "theme_color"      : "#333333",
     "display"          : "standalone",
-    "scope"            : "/",
+    "scope"            : "/library/",
     "screenshots"      : [{
         "src"   : "img/library-screenshot.png",
         "type"  : "image/png",
