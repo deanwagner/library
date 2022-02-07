@@ -105,8 +105,8 @@
                     <input type="color" id="color-dark" name="color-dark">
                     <label for="color-light">Title Color</label>
                     <input type="color" id="color-light" name="color-light" required>
-                    <button id="settings-reset" type="reset">Reset</button>
-                    <button id="settings-submit" type="submit">Save</button>
+                    <button id="settings-reset" type="button">Reset</button>
+                    <button id="settings-save" type="button">Save</button>
                 </form>
             </div>
             <div id="modal_edit">
@@ -142,10 +142,22 @@
                 <form>
                     <select id="deleted_books" name="deleted_books[]" size="10" multiple></select>
                     <div>
-                        <button id="deleted_erase" type="submit">Purge Selected</button>
-                        <button id="deleted_restore" type="submit">Restore Selected</button>
+                        <button id="deleted_erase" type="button">Purge Selected</button>
+                        <button id="deleted_restore" type="button">Restore Selected</button>
                     </div>
                 </form>
+            </div>
+            <div id="modal_default">
+                <a class="close_modal" data-id="modal_default" href="#"><svg viewBox="0 0 24 24">
+                    <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
+                </svg></a>
+                <h3>Restore Defaults</h3>
+                <p>This will erase all user created data and restore all Books and settings data to their original default values.</p>
+                <p>This action <strong>cannot</strong> be undone!</p>
+                <div>
+                    <button id="default_cancel" type="button">Cancel</button>
+                    <button id="default_confirm" type="button">Continue</button>
+                </div>
             </div>
             <div id="modal_mobile">
                 <a class="close_modal" data-id="modal_mobile" href="#"><svg viewBox="0 0 24 24">

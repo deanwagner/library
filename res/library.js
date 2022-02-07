@@ -10,8 +10,8 @@ class Library {
     // Class Properties
     books    = [];
     trash    = [];
-    base     = {};
-    settings = [
+    settings = {};
+    styles   = [
         'color-accent',
         'color-text',
         'color-bg',
@@ -36,18 +36,35 @@ class Library {
         // LocalStorage
         this.storage = window.localStorage;
 
-        // Build {base} from [settings] and CSS
-        this.settings.forEach((index) => {
-            // Get Value from Stylesheet
-            this.base[index] = getComputedStyle(document.documentElement).getPropertyValue('--' + index).trim();
+        // Load Settings
+        if (this.storage.hasOwnProperty('settings')) {
+            // Load from LocalStorage
+            this.settings = JSON.parse(this.storage.getItem('settings'));
+            this.styles.forEach((index) => {
+                // Set Value in Stylesheet
+                document.documentElement.style.setProperty('--' + index, this.settings[index]);
+            });
+        } else {
+            // Build {settings} from [styles] and CSS
+            this.styles.forEach((index) => {
+                // Get Value from Stylesheet
+                this.settings[index] = getComputedStyle(document.documentElement).getPropertyValue('--' + index).trim();
+            });
+        }
+
+        // Populate Settings Modal Form
+        for (let index in this.settings) {
+            // Get Matching Input
+            const input = document.getElementById(index);
+
+            // Update Input Value from {settings}
+            input.value = this.settings[index];
 
             // Add Event Listener to Settings Form
-            const input = document.getElementById(index);
-            input.value = this.base[index];
             input.addEventListener('change', (e) => {
                 document.documentElement.style.setProperty('--' + index, e.target.value);
             });
-        });
+        }
 
         // Load Books
         if (this.storage.hasOwnProperty('books')) {
@@ -79,6 +96,16 @@ class Library {
             }
         });
 
+        // Delete Group Button
+        document.getElementById('delete_group').addEventListener('click', (e) => {
+            e.preventDefault();
+            const selected = this.tableBody.querySelectorAll("input[type='checkbox']:checked");
+            for (let i = 0; i < selected.length; i++) {
+                this.deleteBook(selected[i].value);
+            }
+            document.getElementById('select_all').checked = false;
+        });
+
         // Modal Close Button [X]
         const close = document.querySelectorAll('.close_modal');
         for (let i = 0; i < close.length; i++) {
@@ -87,6 +114,26 @@ class Library {
                 this.closeModal(e.currentTarget.dataset.id);
             });
         }
+
+        // Open History Modal
+        document.getElementById('default_link').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.openModal('modal_default');
+        });
+
+        // History Cancel Button
+        document.getElementById('default_cancel').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.closeModal('modal_default');
+        });
+
+        // History Confirm Button
+        document.getElementById('default_confirm').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.storage.clear();
+            this.closeModal('modal_default');
+            location.reload();
+        });
 
         // Open Settings Modal
         document.getElementById('settings_link').addEventListener('click', (e) => {
@@ -100,20 +147,21 @@ class Library {
             this.resetSettings();
         });
 
-        // Delete Group Button
-        document.getElementById('delete_group').addEventListener('click', (e) => {
+        // Settings Save Button
+        document.getElementById('settings-save').addEventListener('click', (e) => {
             e.preventDefault();
-            const selected = this.tableBody.querySelectorAll("input[type='checkbox']:checked");
-            for (let i = 0; i < selected.length; i++) {
-                this.deleteBook(selected[i].value);
-            }
-            document.getElementById('select_all').checked = false;
-        });
 
-        // Open Recycle Bin Modal
-        document.getElementById('recycle_link').addEventListener('click', (e) => {
-            e.preventDefault();
-            this.openModal('modal_recycle');
+            // Update Settings
+            for (let index in this.settings) {
+                // Get Matching Input
+                const input = document.getElementById(index);
+
+                // Update Input Value from {settings}
+                this.settings[index] = input.value;
+            }
+
+            this.storage.setItem('settings', JSON.stringify(this.settings));
+            this.closeModal('modal_settings');
         });
 
         // Open Add Book Modal
@@ -139,6 +187,12 @@ class Library {
             this.addBook();
             this.closeModal('modal_edit');
             return false;
+        });
+
+        // Open Recycle Bin Modal
+        document.getElementById('recycle_link').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.openModal('modal_recycle');
         });
 
         // Recycle Bin Restore Button
@@ -269,10 +323,10 @@ class Library {
 
         // Unique Authors
         const authors = this.books.reduce(
-            (acc, x) => acc.concat(
-                acc.find(
-                    y => y.author.toLowerCase() === x.author.toLowerCase()
-                ) ? [] : [x]
+            (a, b) => a.concat(
+                a.find(
+                    c => c.author.toLowerCase() === b.author.toLowerCase()
+                ) ? [] : [b]
             ), []
         );
 
@@ -445,6 +499,9 @@ class Library {
 
         // Update Summary Stats
         this.updateStats();
+
+        // Update Storage
+        this.storage.setItem('books', JSON.stringify(this.books));
     }
 
     /**
@@ -469,6 +526,10 @@ class Library {
 
         // Update Summary Stats
         this.updateStats();
+
+        // Update Storage
+        this.storage.setItem('books', JSON.stringify(this.books));
+        this.storage.setItem('trash', JSON.stringify(this.trash));
     }
 
     /**
@@ -493,6 +554,10 @@ class Library {
 
         // Update Summary Stats
         this.updateStats();
+
+        // Update Storage
+        this.storage.setItem('books', JSON.stringify(this.books));
+        this.storage.setItem('trash', JSON.stringify(this.trash));
     }
 
     /**
@@ -508,6 +573,9 @@ class Library {
 
         // Update Summary Stats
         this.updateStats();
+
+        // Update Storage
+        this.storage.setItem('trash', JSON.stringify(this.trash));
     }
 
     /**
@@ -617,9 +685,9 @@ class Library {
      * Reset Settings to Last Save
      */
     resetSettings() {
-        this.settings.forEach((index) => {
-            document.documentElement.style.setProperty('--' + index, this.base[index]);
-            document.getElementById(index).value = this.base[index];
+        this.styles.forEach((index) => {
+            document.documentElement.style.setProperty('--' + index, this.settings[index]);
+            document.getElementById(index).value = this.settings[index];
         });
     }
 

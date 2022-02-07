@@ -29,7 +29,6 @@ html {
     margin: 0;
     padding: 0;
     scroll-behavior: smooth;
-    scrollbar-color: var(--color-bg) transparent;
 }
 
 body {
@@ -528,6 +527,27 @@ footer {
 }
 
 /* * * * * * * * *\
+ *    History    *
+\* * * * * * * * */
+
+#modal_default {
+    display: none;
+}
+
+#modal_default div {
+    align-items: stretch;
+    display: flex;
+    gap: 0.5em;
+    justify-content: stretch;
+}
+
+#modal_default button {
+    flex: 1;
+    padding: 0.5em 2em;
+    white-space: nowrap;
+}
+
+/* * * * * * * * *\
  *  Mobile View  *
 \* * * * * * * * */
 
@@ -565,29 +585,32 @@ footer {
  *  Scrollbars   *
 \* * * * * * * * */
 
+body * {
+    scrollbar-color: var(--color-bg) transparent;
+}
 
-::-webkit-scrollbar {
+body::-webkit-scrollbar {
     width: auto;
     height: auto;
 }
 
-::-webkit-scrollbar-button,
-::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-button,
+body::-webkit-scrollbar-thumb {
     background-color: var(--color-bg);
     background-clip: padding-box;
     border: 1px solid transparent;
     border-radius: 5px;
 }
 
-::-webkit-scrollbar-corner,
-::-webkit-scrollbar-track {
+body::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-track {
     background-color: transparent;
 }
 
 
-::-webkit-scrollbar-button:hover,
-::-webkit-scrollbar-thumb:hover,
-::-webkit-scrollbar-thumb:active {
+body::-webkit-scrollbar-button:hover,
+body::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:active {
     background-color: var(--color-accent);
 }
 
