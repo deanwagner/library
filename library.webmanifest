@@ -1,6 +1,6 @@
 {
-    "short_name"  : "Library",
     "name"        : "Library",
+    "short_name"  : "Library",
     "description" : "An app to store and track your personal library.",
     "icons"       : [{
         "src"   : "img/library.svg",
