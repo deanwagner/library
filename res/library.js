@@ -399,7 +399,7 @@ class Library {
             <td class="book_pages">${book.getPages()}</td>
             <td class="book_published">${book.getPublished()}</td>
             <td class="book_acquired">${book.getAcquired()}</td>
-            <td class="book_status">${book.getStatus()}</td>
+            <td class="book_status"><a data-id="${book.id}" data-status="${book.status.toString()}" href="#">${book.getStatus()}</a></td>
             <td class="book_edit">
                 <a data-id="${book.id}" data-action="delete" title="Delete Book" href="#"><svg viewBox="0 0 24 24">
                     <path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z" />
@@ -409,8 +409,26 @@ class Library {
                 </svg></a>
             </td>`;
 
+        // Event Listener for Read/Unread Toggle
+        row.querySelector('.book_status a').addEventListener('click', (e) => {
+            // Get Book Index from Book ID
+            const index = this.indexFromBookID(e.target.dataset.id);
+
+            // Toggle Book Status
+            this.books[index].toggleStatus();
+
+            // Change Link Text
+            e.target.innerText = (parseInt(e.target.dataset.status)) ? 'Unread' : 'Read';
+
+            // Update Summary Stats
+            this.updateStats();
+
+            // Update Storage
+            this.storage.setItem('books', JSON.stringify(this.books));
+        });
+
         // Add Event Listeners for Edit Buttons
-        const a = row.querySelectorAll('td:last-child a');
+        const a = row.querySelectorAll('.book_edit a');
         for (let i = 0; i < a.length; i++) {
             a[i].addEventListener('click', (e) => { this.editEntry(e); });
         }
