@@ -418,8 +418,9 @@ class Library {
             this.books[index].toggleStatus();
 
             // Change Link Text
-            e.target.innerText = (parseInt(e.target.dataset.status)) ? 'Unread' : 'Read';
-            e.target.dataset.status = (parseInt(e.target.dataset.status)) ? '0' : '1';
+            const status = parseInt(e.target.dataset.status);
+            e.target.innerText = (status) ? 'Unread' : 'Read';
+            e.target.dataset.status = (status) ? '0' : '1';
 
             // Update Summary Stats
             this.updateStats();
