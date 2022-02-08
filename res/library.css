@@ -539,6 +539,12 @@ footer {
     max-width: 40ch;
 }
 
+#modal_default p:nth-child(4) {
+    font-style: italic;
+    max-width: 40ch;
+    text-align: center;
+}
+
 #modal_default div {
     align-items: stretch;
     display: flex;
