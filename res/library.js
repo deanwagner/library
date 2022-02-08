@@ -16,7 +16,8 @@ class Library {
         'color-text',
         'color-bg',
         'color-dark',
-        'color-light'
+        'color-light',
+        'color-scheme'
     ];
 
     /**
@@ -42,13 +43,13 @@ class Library {
             this.settings = JSON.parse(this.storage.getItem('settings'));
             this.styles.forEach((index) => {
                 // Set Value in Stylesheet
-                document.documentElement.style.setProperty('--' + index, this.settings[index]);
+                this.setStyleProperty(index, this.settings[index]);
             });
         } else {
             // Build {settings} from [styles] and CSS
             this.styles.forEach((index) => {
                 // Get Value from Stylesheet
-                this.settings[index] = getComputedStyle(document.documentElement).getPropertyValue('--' + index).trim();
+                this.settings[index] = this.getStyleProperty(index);
             });
         }
 
@@ -61,8 +62,8 @@ class Library {
             input.value = this.settings[index];
 
             // Add Event Listener to Settings Form
-            input.addEventListener('change', (e) => {
-                document.documentElement.style.setProperty('--' + index, e.target.value);
+            input.addEventListener('input', (e) => {
+                this.setStyleProperty(index, e.target.value);
             });
         }
 
@@ -348,7 +349,7 @@ class Library {
     }
 
     /**
-     * Load Books into Trash from JSON
+     * Sort Table by Heading
      * @param {object} e    - Event Object
      * @param {string} prop - Property to Sort By
      */
@@ -683,6 +684,26 @@ class Library {
      */
     generateId() {
         return (Math.round(Date.now())).toString(36);
+    }
+
+    /**
+     * Get CSS Property
+     * @param   {string} prop - Property
+     * @returns {string} - Value
+     */
+    getStyleProperty(prop) {
+        const property = (prop === 'color-scheme') ? prop : '--' + prop;
+        return getComputedStyle(document.documentElement).getPropertyValue(property).trim();
+    }
+
+    /**
+     * Set CSS Property
+     * @param {string} prop  - Property
+     * @param {string} value - Value
+     */
+    setStyleProperty(prop, value) {
+        const property = (prop === 'color-scheme') ? prop : '--' + prop;
+        document.documentElement.style.setProperty(property, value);
     }
 
     /**
