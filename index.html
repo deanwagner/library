@@ -2,7 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Dean Wagner">
         <title>Library</title>
         <link rel="icon" sizes="any" type="image/svg+xml" href="./img/library.svg">
         <link rel="manifest" href="library.webmanifest">
@@ -15,7 +16,21 @@
             });
         </script>
     </head>
+    <!-- -------------- -!>
+           Library
+
+        By: Dean Wagner
+      info@deanwagner.net
+
+        Assignment for:
+       The Odin Project
+      theodinproject.com
+    <--- -------------- -->
     <body>
+
+        <!-- ------------ -!>
+               Header
+        <--- ------------ -->
         <header>
             <h1>
                 <svg id="books" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 54.2448">
@@ -43,6 +58,10 @@
                 </svg></a>
             </div>
         </header>
+
+        <!-- ------------ -!>
+                Main
+        <--- ------------ -->
         <main>
             <table>
                 <thead>
@@ -85,11 +104,22 @@
                 <div>Deleted Books <span id="total_trash"></span></div>
             </section>
         </main>
+
+        <!-- ------------ -!>
+               Footer
+        <--- ------------ -->
         <footer>
             Created by <a href="https://deanwagner.net/" rel="external" target="_blank">Dean Wagner</a>
             for <a href="https://theodinproject.com/" rel="external" target="_blank">The Odin Project</a>
         </footer>
+        <!-- ------------ -!>
+               Modals
+        <--- ------------ -->
         <div id="modal">
+
+            <!-- ------------ -!>
+                  Settings
+            <--- ------------ -->
             <div id="modal_settings">
                 <a class="close_modal" data-id="modal_settings" href="#"><svg viewBox="0 0 24 24">
                     <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
@@ -115,6 +145,10 @@
                     <button id="settings-save" type="button">Save</button>
                 </form>
             </div>
+
+            <!-- ------------ -!>
+                Add New Book
+            <--- ------------ -->
             <div id="modal_edit">
                 <a class="close_modal" data-id="modal_edit" href="#"><svg viewBox="0 0 24 24">
                     <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
@@ -140,6 +174,10 @@
                     <input type="hidden" id="new_id" name="new_id" value="">
                 </form>
             </div>
+
+            <!-- ------------ -!>
+                 Recycle Bin
+            <--- ------------ -->
             <div id="modal_recycle">
                 <a class="close_modal" data-id="modal_recycle" href="#"><svg viewBox="0 0 24 24">
                     <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
@@ -153,6 +191,10 @@
                     </div>
                 </form>
             </div>
+
+            <!-- ------------ -!>
+               Restore Defaults
+            <--- ------------ -->
             <div id="modal_default">
                 <a class="close_modal" data-id="modal_default" href="#"><svg viewBox="0 0 24 24">
                     <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
@@ -165,6 +207,10 @@
                     <button id="default_confirm" type="button">Continue</button>
                 </div>
             </div>
+
+            <!-- ------------ -!>
+               Portrait Alert
+            <--- ------------ -->
             <div id="modal_mobile">
                 <a class="close_modal" data-id="modal_mobile" href="#"><svg viewBox="0 0 24 24">
                     <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
