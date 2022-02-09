@@ -9,7 +9,6 @@ class Library {
 
     // Class Properties
     books    = [];
-    trash    = [];
     settings = {};
     styles   = [
         'color-accent',
@@ -72,17 +71,8 @@ class Library {
             // Load from LocalStorage
             this.loadBooks(JSON.parse(this.storage.getItem('books')));
         } else {
-            // Load from JSON
+            // Load from JSON File
             this.defaultBooks();
-        }
-
-        // Load Trash
-        if (this.storage.hasOwnProperty('trash')) {
-            // Load from LocalStorage
-            this.loadTrash(JSON.parse(this.storage.getItem('trash')));
-        } else {
-            // Load from JSON
-            this.defaultTrash();
         }
 
         /* * * * * * * * * *\
@@ -112,7 +102,7 @@ class Library {
         for (let i = 0; i < close.length; i++) {
             close[i].addEventListener('click', (e) => {
                 e.preventDefault();
-                this.closeModal(e.currentTarget.dataset.id);
+                Library.closeModal(e.currentTarget.dataset.id);
             });
         }
 
@@ -125,14 +115,14 @@ class Library {
         // History Cancel Button
         document.getElementById('default_cancel').addEventListener('click', (e) => {
             e.preventDefault();
-            this.closeModal('modal_default');
+            Library.closeModal('modal_default');
         });
 
         // History Confirm Button
         document.getElementById('default_confirm').addEventListener('click', (e) => {
             e.preventDefault();
             this.storage.clear();
-            this.closeModal('modal_default');
+            Library.closeModal('modal_default');
             location.reload();
         });
 
@@ -162,7 +152,7 @@ class Library {
             }
 
             this.storage.setItem('settings', JSON.stringify(this.settings));
-            this.closeModal('modal_settings');
+            Library.closeModal('modal_settings');
         });
 
         // Open Add Book Modal
@@ -186,7 +176,7 @@ class Library {
         document.getElementById('new_book').addEventListener('submit', (e) => {
             e.preventDefault();
             this.addBook();
-            this.closeModal('modal_edit');
+            Library.closeModal('modal_edit');
             return false;
         });
 
@@ -205,7 +195,7 @@ class Library {
                 this.restoreBook(selected[i].value);
             }
 
-            this.closeModal('modal_recycle');
+            Library.closeModal('modal_recycle');
         });
 
         // Recycle Bin Erase Button
@@ -221,7 +211,7 @@ class Library {
         // Mobile Alert Modal OK Button
         document.getElementById('mobile_confirm').addEventListener('click', (e) => {
             e.preventDefault();
-            this.closeModal('modal_mobile');
+            Library.closeModal('modal_mobile');
         });
 
         // Table Header Sort Links
@@ -250,35 +240,13 @@ class Library {
                 json[i].pages,
                 json[i].published,
                 json[i].acquired,
-                json[i].status
+                json[i].status,
+                json[i].deleted
             );
         }
 
         // Add Books to Table
         this.buildTable();
-
-        // Update Summary Stats
-        this.updateStats();
-    }
-
-    /**
-     * Load Books into Trash from JSON
-     * @param {array} json - Parsed JSON Array of Books
-     */
-    loadTrash(json) {
-        // Loop through JSON
-        for (let i = 0; i < json.length; i++) {
-            // Add Book to Recycle Bin
-            this.trash[i] = new Book(
-                json[i].id,
-                json[i].title,
-                json[i].author,
-                json[i].pages,
-                json[i].published,
-                json[i].acquired,
-                json[i].status
-            );
-        }
 
         // Add Trash to Recycle Bin
         this.buildTrash();
@@ -301,51 +269,50 @@ class Library {
     }
 
     /**
-     * Loads Default Trash from JSON
-     */
-    defaultTrash() {
-        // Get Default Trash from JSON
-        fetch('./res/trash.json')
-            .then(response => response.json())
-            .then(json => {
-                // Load Books into Trash
-                this.loadTrash(json);
-            });
-    }
-
-    /**
      * Updates Library Stats in Summary
      */
     updateStats() {
-        // Total Pages
-        const pages = this.books.reduce((a, b) => {
-            return a + b['pages'];
-        }, 0);
+        const auth  = [];
+        let total   = 0;
+        let pages   = 0;
+        let read    = 0;
+        let unread  = 0;
+        let deleted = 0;
 
-        // Unique Authors
-        const authors = this.books.reduce(
-            (a, b) => a.concat(
-                a.find(
-                    c => c.author.toLowerCase() === b.author.toLowerCase()
-                ) ? [] : [b]
-            ), []
-        );
+        // Loop through Books
+        this.books.forEach(book => {
+            if (book.notDeleted()) {
+                // Total Books
+                total++;
 
-        // Read Books
-        const read = this.books.reduce((a, b) => {
-            return a + b['status'];
-        }, 0);
+                // Total Pages
+                pages += book.pages;
 
-        // Unread Books
-        const unread = this.books.length - read;
+                // Unique Authors
+                if (!auth.includes(book.author.toLowerCase())) {
+                    auth.push(book.author.toLowerCase());
+                }
+
+                if (book.status) {
+                    // Read Books
+                    read++;
+                } else {
+                    // Unread Books
+                    unread++;
+                }
+            } else {
+                // Deleted Books
+                deleted++;
+            }
+        });
 
         // Display Stats
-        document.getElementById('total_books').innerText   = this.books.length.toString();
+        document.getElementById('total_books').innerText   = total.toLocaleString();
         document.getElementById('total_pages').innerText   = pages.toLocaleString();
-        document.getElementById('total_authors').innerText = authors.length.toString();
-        document.getElementById('total_read').innerText    = read.toString();
-        document.getElementById('total_unread').innerText  = unread.toString();
-        document.getElementById('total_trash').innerText   = this.trash.length.toString();
+        document.getElementById('total_authors').innerText = auth.length.toLocaleString();
+        document.getElementById('total_read').innerText    = read.toLocaleString();
+        document.getElementById('total_unread').innerText  = unread.toLocaleString();
+        document.getElementById('total_trash').innerText   = deleted.toLocaleString();
     }
 
     /**
@@ -459,7 +426,9 @@ class Library {
 
         // Add Table Rows
         this.books.forEach((book) => {
-            this.addTableRow(book);
+            if (book.notDeleted()) {
+                this.addTableRow(book);
+            }
         });
     }
 
@@ -510,7 +479,8 @@ class Library {
                 document.getElementById('new_pages').value,
                 document.getElementById('new_published').value,
                 document.getElementById('new_acquired').value,
-                document.getElementById('new_status').value
+                document.getElementById('new_status').value,
+                0
             );
 
             // Add Book to Library
@@ -535,14 +505,11 @@ class Library {
         // Get Book Index from Book ID
         const index = this.indexFromBookID(bookID);
 
-        // Add Book to Trash
-        this.trash.push(this.books[index]);
+        // Delete Book
+        this.books[index].delete();
 
         // Add Book to Recycle Bin
         this.addTrashOption(this.books[index]);
-
-        // Remove Book From Library
-        this.books = this.books.filter(b => b.id !== bookID);
 
         // Remove Book from Table
         this.removeTableRow(bookID);
@@ -552,7 +519,6 @@ class Library {
 
         // Update Storage
         this.storage.setItem('books', JSON.stringify(this.books));
-        this.storage.setItem('trash', JSON.stringify(this.trash));
     }
 
     /**
@@ -561,16 +527,13 @@ class Library {
      */
     restoreBook(bookID) {
         // Get Book Index from Book ID
-        const index = this.indexFromTrashID(bookID);
+        const index = this.indexFromBookID(bookID);
 
-        // Add Book to Library
-        this.books.push(this.trash[index]);
+        // Restore Book
+        this.books[index].restore();
 
         // Add Book to Table
-        this.addTableRow(this.trash[index]);
-
-        // Remove Book from Trash
-        this.trash = this.trash.filter(b => b.id !== bookID);
+        this.addTableRow(this.books[index]);
 
         // Remove Book from Recycle Bin
         this.removeTrashOption(bookID);
@@ -580,7 +543,6 @@ class Library {
 
         // Update Storage
         this.storage.setItem('books', JSON.stringify(this.books));
-        this.storage.setItem('trash', JSON.stringify(this.trash));
     }
 
     /**
@@ -588,8 +550,8 @@ class Library {
      * @param {string} bookID - Book ID
      */
     eraseBook(bookID) {
-        // Remove Book from Trash
-        this.trash = this.trash.filter(b => b.id !== bookID);
+        // Remove Book from Library
+        this.books = this.books.filter(b => b.id !== bookID);
 
         // Remove Book from Recycle Bin
         this.removeTrashOption(bookID);
@@ -598,7 +560,7 @@ class Library {
         this.updateStats();
 
         // Update Storage
-        this.storage.setItem('trash', JSON.stringify(this.trash));
+        this.storage.setItem('books', JSON.stringify(this.books));
     }
 
     /**
@@ -643,9 +605,11 @@ class Library {
         this.recycleBin.innerHTML = '';
 
         // Add Books to Recycle Bin from Trash
-        for (let i = 0; i < this.trash.length; i++) {
-            this.addTrashOption(this.trash[i]);
-        }
+        this.books.forEach(book => {
+            if (book.isDeleted()) {
+                this.addTrashOption(book);
+            }
+        });
     }
 
     /**
@@ -713,15 +677,6 @@ class Library {
      */
     indexFromBookID(bookID) {
         return this.books.findIndex(book => book.id === bookID);
-    }
-
-    /**
-     * Get Book Trash Index from Book ID
-     * @param   {string} bookID - Book ID
-     * @returns {number} - Book Index
-     */
-    indexFromTrashID(bookID) {
-        return this.trash.findIndex(book => book.id === bookID);
     }
 
     /**

@@ -15,19 +15,51 @@ class Book {
     published;
     acquired;
     status;
+    deleted;
 
     /**
      * Constructor
      * @constructor
      */
-    constructor(id, title, author, pages, published, acquired, status) {
+    constructor(id, title, author, pages, published, acquired, status, deleted) {
         this.id        = id;
-        this.title     = title;
-        this.author    = author;
+        this.title     = title.trim();
+        this.author    = author.trim();
         this.pages     = parseInt(pages);
         this.published = published;
         this.acquired  = acquired;
         this.status    = parseInt(status);
+        this.deleted   = parseInt(deleted);
+    }
+
+    /**
+     * Delete Book
+     */
+    delete() {
+        this.deleted = 1;
+    }
+
+    /**
+     * Restore Book
+     */
+    restore() {
+        this.deleted = 0;
+    }
+
+    /**
+     * Is Deleted
+     * @returns {boolean} - T/F
+     */
+    isDeleted() {
+        return (this.deleted === 1);
+    }
+
+    /**
+     * Not Deleted
+     * @returns {boolean} - T/F
+     */
+    notDeleted() {
+        return (this.deleted === 0);
     }
 
     /**
@@ -51,7 +83,7 @@ class Book {
      */
     getTitle() {
         // Title Case
-        let str = this._formatText(this.title);
+        let str = Book.#formatText(this.title);
 
         // Word Replacements
         const replace = {
@@ -94,7 +126,7 @@ class Book {
      * @returns {string} - Formatted Author
      */
     getAuthor() {
-        return this._formatText(this.author);
+        return Book.#formatText(this.author);
     }
 
     /**
@@ -110,7 +142,7 @@ class Book {
      * @returns {string} - Published Date
      */
     getPublished() {
-        return this._formatDate(this.published);
+        return Book.#formatDate(this.published);
     }
 
     /**
@@ -118,7 +150,7 @@ class Book {
      * @returns {string} - Acquired Date
      */
     getAcquired() {
-        return this._formatDate(this.acquired);
+        return Book.#formatDate(this.acquired);
     }
 
     /**
@@ -126,7 +158,7 @@ class Book {
      * @param   {string} str - Raw Text
      * @returns {string} - Formatted Text
      */
-    _formatText(str) {
+    static #formatText(str) {
         return str.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase());
     }
 
@@ -135,7 +167,7 @@ class Book {
      * @param   {string} str - Raw Date
      * @returns {string} - Formatted Date
      */
-    _formatDate(str) {
+    static #formatDate(str) {
         return new Date(str).toLocaleDateString();
     }
 }
