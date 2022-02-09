@@ -1,5 +1,5 @@
 # Library
-Library App to Store, Track, and Sort a Book Collection
+### Library App to Store, Track, and Sort a Book Collection
 
 Live Demo:  
 https://deanwagner.github.io/library/
