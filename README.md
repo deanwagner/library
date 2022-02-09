@@ -8,8 +8,6 @@ https://deanwagner.github.io/library/
 
 This project was created for the [Library assignment](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/library) as part of [The Odin Project](https://www.theodinproject.com) curriculum. I met all the assignment objectives and then expanded on it with my own concepts to make it more functional and user-friendly.
 
-If you view the code you may notice that I chose to create and maintain two arrays of book objects, one for the library books and one for the deleted books. I deliberately chose to do it this way to demonstrate management and moving of data objects across multiple instances, even though it led to having some slightly redundant code. If this project were for production, all books would be stored together and differentiated by a simple `Book.deleted` property.
-
 ### Objectives
 
 1. Store books as objects in an array
