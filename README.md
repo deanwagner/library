@@ -1,7 +1,8 @@
 # Library
 Library App to Store, Track, and Sort a Book Collection
 
-Live Demo: https://deanwagner.github.io/library/
+Live Demo:  
+https://deanwagner.github.io/library/
 
 ![Project Screenshot](https://deanwagner.github.io/library/img/library-screenshot.png)
 
