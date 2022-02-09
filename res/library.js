@@ -102,7 +102,7 @@ class Library {
         for (let i = 0; i < close.length; i++) {
             close[i].addEventListener('click', (e) => {
                 e.preventDefault();
-                Library.closeModal(e.currentTarget.dataset.id);
+                this.closeModal(e.currentTarget.dataset.id);
             });
         }
 
@@ -115,14 +115,14 @@ class Library {
         // History Cancel Button
         document.getElementById('default_cancel').addEventListener('click', (e) => {
             e.preventDefault();
-            Library.closeModal('modal_default');
+            this.closeModal('modal_default');
         });
 
         // History Confirm Button
         document.getElementById('default_confirm').addEventListener('click', (e) => {
             e.preventDefault();
             this.storage.clear();
-            Library.closeModal('modal_default');
+            this.closeModal('modal_default');
             location.reload();
         });
 
@@ -152,7 +152,7 @@ class Library {
             }
 
             this.storage.setItem('settings', JSON.stringify(this.settings));
-            Library.closeModal('modal_settings');
+            this.closeModal('modal_settings');
         });
 
         // Open Add Book Modal
@@ -176,7 +176,7 @@ class Library {
         document.getElementById('new_book').addEventListener('submit', (e) => {
             e.preventDefault();
             this.addBook();
-            Library.closeModal('modal_edit');
+            this.closeModal('modal_edit');
             return false;
         });
 
@@ -195,7 +195,7 @@ class Library {
                 this.restoreBook(selected[i].value);
             }
 
-            Library.closeModal('modal_recycle');
+            this.closeModal('modal_recycle');
         });
 
         // Recycle Bin Erase Button
@@ -211,7 +211,7 @@ class Library {
         // Mobile Alert Modal OK Button
         document.getElementById('mobile_confirm').addEventListener('click', (e) => {
             e.preventDefault();
-            Library.closeModal('modal_mobile');
+            this.closeModal('modal_mobile');
         });
 
         // Table Header Sort Links
