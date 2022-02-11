@@ -7,7 +7,7 @@
  * @property {object} settings   - Array of User Settings
  * @property {array}  styles     - Array of Style Keys
  * @property {object} tableBody  - Library <tbody> Element
- * @property {object} recycleBin - Recycle Bin <select> Elelment
+ * @property {object} recycleBin - Recycle Bin <select> Element
  * @property {object} storage    - LocalStorage
  * @author Dean Wagner <info@deanwagner.net>
  */
