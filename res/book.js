@@ -3,6 +3,14 @@
 /**
  * Book Class for Library
  * @class
+ * @property {string} id        - Book ID
+ * @property {string} title     - Book Title
+ * @property {string} author    - Book Author
+ * @property {number} pages     - Book Pages
+ * @property {date}   published - Book Published Date
+ * @property {date}   acquired  - Book Acquired Date
+ * @property {number} status    - Book Read/Unread States
+ * @property {number} deleted   - Book Deleted Status
  * @author Dean Wagner <info@deanwagner.net>
  */
 class Book {
