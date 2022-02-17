@@ -8,7 +8,7 @@ https://deanwagner.github.io/library/
 
 This project was created for the [Library assignment](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/library) as part of [The Odin Project](https://www.theodinproject.com) curriculum. I met all the assignment objectives and then expanded on it with my own concepts to make it more functional and user-friendly.
 
-### Assets Supplied
+### Provided Assets
 
 * None
 
