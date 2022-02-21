@@ -690,7 +690,7 @@ class Library {
      */
     resetSettings() {
         this.styles.forEach((index) => {
-            document.documentElement.style.setProperty('--' + index, this.settings[index]);
+            this.setStyleProperty(index, this.settings[index]);
             document.getElementById(index).value = this.settings[index];
         });
     }
