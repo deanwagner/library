@@ -405,29 +405,12 @@ footer {
  *    Modals     *
 \* * * * * * * * */
 
-#modal {
-    align-items: center;
-    background-color: rgba(0,0,0,0.5);
-    bottom: 0;
-    display: none;
-    height: 100vh;
-    justify-content: center;
-    left: 0;
-    opacity: 1;
-    position: fixed;
-    right: 0;
-    top: 0;
-    transition: all 0.2s ease-out;
-    width: 100vw;
-}
-
 #modal > div {
     background-color: var(--color-bg);
     border: var(--border-solid);
     border-radius: 1em;
     box-shadow: var(--shadow-box);
     padding: 2em;
-    position: relative;
 }
 
 #modal div h3 {
@@ -436,26 +419,12 @@ footer {
     text-align: center;
 }
 
-#modal .close_modal {
-    height: 2em;
-    position: absolute;
-    right: 0.5em;
-    top: 0.5em;
-    transition: all 0.3s ease-out;
-    width: 2em;
-}
-
 #modal .close_modal svg {
     filter: drop-shadow(var(--shadow-text));
-    transition: all 0.3s ease-out;
 }
 
 #modal .close_modal svg path {
     fill: var(--color-accent);
-}
-
-#modal .close_modal:hover {
-    transform: rotate(-360deg) scale(1.3);
 }
 
 #modal .close_modal:hover svg {
