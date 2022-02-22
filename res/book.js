@@ -7,8 +7,8 @@
  * @property {string} title     - Book Title
  * @property {string} author    - Book Author
  * @property {number} pages     - Book Pages
- * @property {date}   published - Book Published Date
- * @property {date}   acquired  - Book Acquired Date
+ * @property {string} published - Book Published Date
+ * @property {string} acquired  - Book Acquired Date
  * @property {number} status    - Book Read/Unread States
  * @property {number} deleted   - Book Deleted Status
  * @author Dean Wagner <info@deanwagner.net>
@@ -179,3 +179,5 @@ class Book {
         return new Date(str).toLocaleDateString();
     }
 }
+
+export default Book;

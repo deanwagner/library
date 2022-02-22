@@ -9,9 +9,8 @@
         <link rel="icon" sizes="any" type="image/svg+xml" href="./img/library.svg">
         <link rel="manifest" href="library.webmanifest">
         <link rel="stylesheet" href="./res/library.css">
-        <script src="./res/book.js" defer></script>
-        <script src="./res/library.js" defer></script>
-        <script>
+        <script type="module">
+            import Library from './res/library.js';
             window.addEventListener('DOMContentLoaded', () => {
                 new Library;
             });
@@ -67,7 +66,10 @@
             <table>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="select_all"></th>
+                        <th>
+                            <label for="select_all">Select/Deselect All</label>
+                            <input title="Select/Deselect All" type="checkbox" id="select_all">
+                        </th>
                         <th><a id="head_title" href="#">Title</a></th>
                         <th><a id="head_author" href="#">Author</a></th>
                         <th><a id="head_pages" href="#">Pages</a></th>
@@ -122,9 +124,6 @@
                   Settings
             <--- ------------ -->
             <div id="modal_settings">
-                <a class="close_modal" data-id="modal_settings" href="#"><svg viewBox="0 0 24 24">
-                    <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
-                </svg></a>
                 <h3>Settings</h3>
                 <form>
                     <label for="color-accent">Accent Color</label>
@@ -151,9 +150,6 @@
                 Add New Book
             <--- ------------ -->
             <div id="modal_edit">
-                <a class="close_modal" data-id="modal_edit" href="#"><svg viewBox="0 0 24 24">
-                    <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
-                </svg></a>
                 <h3>Add New Book</h3>
                 <form id="new_book">
                     <label for="new_title">Title</label>
@@ -180,11 +176,9 @@
                  Recycle Bin
             <--- ------------ -->
             <div id="modal_recycle">
-                <a class="close_modal" data-id="modal_recycle" href="#"><svg viewBox="0 0 24 24">
-                    <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
-                </svg></a>
                 <h3>Deleted Books</h3>
                 <form>
+                    <label for="deleted_books">Deleted Books</label>
                     <select id="deleted_books" name="deleted_books[]" size="10" multiple></select>
                     <div>
                         <button id="deleted_erase" type="button">Purge Selected</button>
@@ -197,9 +191,6 @@
                Restore Defaults
             <--- ------------ -->
             <div id="modal_default">
-                <a class="close_modal" data-id="modal_default" href="#"><svg viewBox="0 0 24 24">
-                    <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
-                </svg></a>
                 <h3>Restore Defaults</h3>
                 <p>This will erase all user created data and restore the books and settings data to their original default values.</p>
                 <p>This action <strong>cannot</strong> be undone!</p>
@@ -213,9 +204,6 @@
                Portrait Alert
             <--- ------------ -->
             <div id="modal_mobile">
-                <a class="close_modal" data-id="modal_mobile" href="#"><svg viewBox="0 0 24 24">
-                    <path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
-                </svg></a>
                 <h3>Please Rotate Your Device</h3>
                 <div>
                     <svg viewBox="0 0 24 24">

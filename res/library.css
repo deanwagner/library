@@ -1,3 +1,17 @@
+/* Import Assets */
+@import 'https://deanwagner.github.io/odin_project/modules/modal/modal.css';
+
+/* * * * * * * * * * * *\
+ *    Library App      *
+ *                     *
+ *  By: Dean Wagner    *
+ * info@deanwagner.net *
+ *                     *
+ *   Assignment for:   *
+ *  The Odin Project   *
+ * theodinproject.com  *
+\* * * * * * * * * * * */
+
 :root {
     --color-bg: #666666;
     --color-text: #cccccc;
@@ -246,9 +260,13 @@ main thead th .dec::after {
     width: 1em;
 }
 
-/* * * * * * * * *\
- *  Table Body   *
-\* * * * * * * * */
+main thead th label {
+    display: none;
+}
+
+    /* * * * * * * * *\
+     *  Table Body   *
+    \* * * * * * * * */
 
 main tbody tr {
     border: var(--border-solid);
@@ -486,6 +504,10 @@ footer {
 \* * * * * * * * */
 
 #modal_recycle {
+    display: none;
+}
+
+#modal_recycle label {
     display: none;
 }
 
