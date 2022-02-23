@@ -36,9 +36,9 @@ class Books {
         this.recycleBin = document.getElementById('deleted_books');
 
         // Load Books
-        if (this.storage.hasOwnProperty('books')) {
+        if (this.storage.hasOwnProperty('lib_books')) {
             // Load from LocalStorage
-            this.loadBooks(JSON.parse(this.storage.getItem('books')));
+            this.loadBooks(JSON.parse(this.storage.getItem('lib_books')));
         } else {
             // Load from JSON File
             this.defaultBooks();
@@ -311,7 +311,7 @@ class Books {
         this.updateStats();
 
         // Update Storage
-        this.storage.setItem('books', JSON.stringify(this.books));
+        this.storage.setItem('lib_books', JSON.stringify(this.books));
     }
 
     /**
@@ -369,7 +369,7 @@ class Books {
         this.updateStats();
 
         // Update Storage
-        this.storage.setItem('books', JSON.stringify(this.books));
+        this.storage.setItem('lib_books', JSON.stringify(this.books));
     }
 
     /**
@@ -393,7 +393,7 @@ class Books {
         this.updateStats();
 
         // Update Storage
-        this.storage.setItem('books', JSON.stringify(this.books));
+        this.storage.setItem('lib_books', JSON.stringify(this.books));
     }
 
     /**
@@ -411,7 +411,7 @@ class Books {
         this.updateStats();
 
         // Update Storage
-        this.storage.setItem('books', JSON.stringify(this.books));
+        this.storage.setItem('lib_books', JSON.stringify(this.books));
     }
 
     /**
@@ -475,7 +475,7 @@ class Books {
             this.updateStats();
 
             // Update Storage
-            this.storage.setItem('books', JSON.stringify(this.books));
+            this.storage.setItem('lib_books', JSON.stringify(this.books));
         });
 
         // Add Event Listeners for Edit Buttons

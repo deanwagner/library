@@ -33,9 +33,9 @@ class Theme {
         this.modal   = modal;
 
         // Load Settings
-        if (this.storage.hasOwnProperty('settings')) {
+        if (this.storage.hasOwnProperty('lib_settings')) {
             // Load from LocalStorage
-            this.settings = JSON.parse(this.storage.getItem('settings'));
+            this.settings = JSON.parse(this.storage.getItem('lib_settings'));
             this.styles.forEach((index) => {
                 // Set Value in Stylesheet
                 this.setStyleProperty(index, this.settings[index]);
@@ -50,6 +50,7 @@ class Theme {
 
         // Populate Settings Modal Form
         for (let index in this.settings) {
+            console.log(this.settings);
             // Get Matching Input
             const input = document.getElementById(index);
 
@@ -87,7 +88,7 @@ class Theme {
                 this.settings[index] = input.value;
             }
 
-            this.storage.setItem('settings', JSON.stringify(this.settings));
+            this.storage.setItem('lib_settings', JSON.stringify(this.settings));
             this.modal.close('modal_settings');
         });
     }
