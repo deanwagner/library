@@ -3,7 +3,7 @@
 // Import Modules
 import Theme from './theme.js';
 import Books from './books.js';
-import Modal from 'https://deanwagner.github.io/odin_project/modules/modal/modal.js';
+import Modal from 'https://deanwagner.github.io/modules/modal/modal.js';
 
 /**
  * Personal Library
