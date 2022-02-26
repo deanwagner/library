@@ -50,7 +50,7 @@ class Theme {
 
         // Populate Settings Modal Form
         for (let index in this.settings) {
-            console.log(this.settings);
+
             // Get Matching Input
             const input = document.getElementById(index);
 

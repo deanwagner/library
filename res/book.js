@@ -176,7 +176,7 @@ class Book {
      * @returns {string} - Formatted Date
      */
     static #formatDate(str) {
-        return new Date(str).toLocaleDateString();
+        return new Date(str + ' 12:00:00').toLocaleDateString();
     }
 }
 
