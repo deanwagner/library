@@ -48,6 +48,9 @@ class Theme {
             });
         }
 
+        // Enable Transitions
+        this.setStyleProperty('transition-all', this.getStyleProperty('enable-all'));
+
         // Populate Settings Modal Form
         for (let index in this.settings) {
 

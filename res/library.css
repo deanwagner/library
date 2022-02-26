@@ -13,21 +13,29 @@
 \* * * * * * * * * * * */
 
 :root {
+    /* Default Colors */
     --color-bg: #666666;
     --color-text: #cccccc;
     --color-dark: #333333;
     --color-light: #eeeeee;
     --color-accent: #ff9c00;
 
+    /* Shadows/Glow */
     --shadow-text: 0.05em 0.05em 0.2em rgba(0,0,0,0.6);
     --shadow-box: 0 0 1em rgba(0,0,0,0.5);
     --glow-text: 0 0 0.1em var(--color-accent);
     --glow-box: 0 0 0.3em var(--color-accent);
 
+    /* Borders */
     --border-solid: 1px solid var(--color-dark);
     --outline-solid: 2px solid var(--color-accent);
 
+    /* Browser Color Scheme */
     color-scheme: dark;
+
+    /* Transitions */
+    --transition-all : none;
+    --enable-all     : all 0.3s ease-out;
 }
 
 * {
@@ -61,7 +69,7 @@ body {
 
 a, a * {
     cursor: pointer;
-    transition: all 0.2s ease-out;
+    transition: var(--transition-all);
 }
 
 a, a:link, a:visited {
@@ -135,7 +143,7 @@ button {
     box-shadow: var(--shadow-text);
     color: var(--color-dark);
     padding: 0.5em;
-    transition: all 0.2s ease-out;
+    transition: var(--transition-all);
 }
 
 button:hover,
@@ -187,13 +195,13 @@ header div {
 header div a {
     display: inline-block;
     margin-left: 1em;
-    transition: all 0.3s ease-out;
+    transition: var(--transition-all);
 }
 
 header div a svg {
     filter: drop-shadow(var(--shadow-text));
     height: 2.5em;
-    transition: all 0.3s ease-out;
+    transition: var(--transition-all);
     width: 2.5em;
 }
 
@@ -270,7 +278,7 @@ main thead th label {
 
 main tbody tr {
     border: var(--border-solid);
-    transition: all 0.2s ease-out;
+    transition: var(--transition-all);
 }
 
 main tbody tr:nth-child(odd) {
@@ -308,7 +316,7 @@ main table td a svg {
     filter: drop-shadow(var(--shadow-text));
     height: 1.5em;
     width: 1.5em;
-    transition: all 0.2s ease-out;
+    transition: var(--transition-all);
 }
 
 main table td a svg path {
