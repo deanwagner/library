@@ -559,6 +559,13 @@ class Books {
     generateId() {
         return (Math.round(Date.now())).toString(36);
     }
+
+    /**
+     * Purge All User Data
+     */
+    purge() {
+        this.storage.removeItem('lib_books');
+    }
 }
 
 export default Books;

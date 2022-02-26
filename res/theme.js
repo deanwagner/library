@@ -122,6 +122,13 @@ class Theme {
             document.getElementById(index).value = this.settings[index];
         });
     }
+
+    /**
+     * Purge All User Data
+     */
+    purge() {
+        this.storage.removeItem('lib_settings');
+    }
 }
 
 export default Theme;

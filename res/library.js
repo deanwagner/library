@@ -8,7 +8,6 @@ import Modal from 'https://deanwagner.github.io/modules/modal/modal.js';
 /**
  * Personal Library
  * @class
- * @property {object} storage - LocalStorage
  * @property {object} modal   - Modal Module
  * @property {object} theme   - Theme Module
  * @property {object} books   - Books Module
@@ -17,7 +16,6 @@ import Modal from 'https://deanwagner.github.io/modules/modal/modal.js';
 class Library {
 
     // Class Properties
-    storage = {};
     modal   = {};
     theme   = {};
     books   = {};
@@ -27,9 +25,6 @@ class Library {
      * @constructor
      */
     constructor() {
-
-        // LocalStorage
-        this.storage = window.localStorage;
 
         // Load Modules
         this.modal = new Modal();
@@ -51,7 +46,8 @@ class Library {
         // History Confirm Button
         document.getElementById('default_confirm').addEventListener('click', (e) => {
             e.preventDefault();
-            this.storage.clear();
+            this.theme.purge();
+            this.books.purge();
             this.modal.close('modal_default');
             location.reload();
         });
